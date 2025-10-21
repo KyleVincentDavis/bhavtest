@@ -52,13 +52,16 @@
 
     ['#open-booking','#bookCta','#mobileBook'].forEach(sel=>{
       on($(sel),'click',()=>{
-        modal.style.display='block';
+        document.body.classList.add('modal-open');
         lockScroll(true);
         setTimeout(()=>dialog.focus(),0);
       });
     });
 
-    function closeModal(){ modal.style.display='none'; lockScroll(false); }
+    function closeModal(){ 
+      document.body.classList.remove('modal-open'); 
+      lockScroll(false); 
+    }
     on(modalCloseBtn,'click', closeModal);
     on(cancelBtn,'click', closeModal);
     on(modal,'click', (e)=>{ if(e.target === modal) closeModal(); });

@@ -296,84 +296,87 @@
     <div class="band-40 bleed"></div>
   </div><!-- /wrap -->
 
-  <!-- Booking modal -->
-  <div id="bookingModal" role="dialog" aria-modal="true" aria-labelledby="bookingTitle"
-       style="display:none;position:fixed;inset:0;background:rgba(7,18,30,0.5);backdrop-filter:blur(4px);padding:28px;z-index:80">
-    <div style="max-width:720px;margin:36px auto;background:var(--card);border-radius:12px;padding:22px;outline:0;position:relative" tabindex="-1" id="bookingDialog">
-      <button class="modal-close" id="modalCloseBtn" aria-label="Close booking">✕</button>
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <h2 id="bookingTitle" style="color:var(--green)">Book a Session</h2>
+<!-- Booking modal (overlay + dialog) -->
+<div class="modal-overlay" id="bookingOverlay" aria-hidden="true"></div>
+
+<div class="modal" id="bookingModal" role="dialog" aria-modal="true" aria-labelledby="bookingTitle" aria-hidden="true">
+  <div class="modal-content" tabindex="-1" id="bookingDialog">
+    <button class="modal-close" id="modalCloseBtn" aria-label="Close booking">✕</button>
+
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <h2 id="bookingTitle" style="color:var(--green)">Book a Session</h2>
+    </div>
+
+    <form id="bookingForm" class="booking" autocomplete="on" novalidate>
+      <div class="row">
+        <div class="field">
+          <label for="name">Full name</label>
+          <input id="name" name="name" required placeholder="Your full name" autocomplete="name" aria-describedby="err-name">
+          <div class="error-msg" id="err-name" role="alert" aria-live="polite"></div>
+        </div>
+        <div class="field">
+          <label for="phone">Phone</label>
+          <input id="phone" name="phone" required placeholder="+1 555 555 0123" autocomplete="tel" inputmode="tel" pattern="^\+?1?[\s\-\.]?\(?\d{3}\)?[\s\-\.]?\d{3}[\s\-\.]?\d{4}$" aria-describedby="err-phone">
+          <small>Format: 555-555-0123 (Canada/US)</small>
+          <div class="error-msg" id="err-phone" role="alert" aria-live="polite"></div>
+        </div>
       </div>
 
-      <form id="bookingForm" class="booking" autocomplete="on" novalidate>
-        <div class="row">
-          <div class="field">
-            <label for="name">Full name</label>
-            <input id="name" name="name" required placeholder="Your full name" autocomplete="name" aria-describedby="err-name">
-            <div class="error-msg" id="err-name" role="alert" aria-live="polite"></div>
-          </div>
-          <div class="field">
-            <label for="phone">Phone</label>
-            <input id="phone" name="phone" required placeholder="+1 555 555 0123" autocomplete="tel" inputmode="tel" pattern="^\+?1?[\s\-\.]?\(?\d{3}\)?[\s\-\.]?\d{3}[\s\-\.]?\d{4}$" aria-describedby="err-phone">
-            <small>Format: 555-555-0123 (Canada/US)</small>
-            <div class="error-msg" id="err-phone" role="alert" aria-live="polite"></div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="field">
-            <label for="email">Email</label>
-            <input id="email" name="email" type="email" required placeholder="you@example.com" autocomplete="email" inputmode="email" aria-describedby="err-email">
-            <div class="error-msg" id="err-email" role="alert" aria-live="polite"></div>
-          </div>
-          <div class="field">
-            <label for="horse">Horse name & age</label>
-            <input id="horse" name="horse" placeholder="Bella — 8 yrs" autocomplete="off">
-          </div>
-        </div>
-
+      <div class="row">
         <div class="field">
-          <label for="service">Service</label>
-          <select id="service" name="service" autocomplete="off">
-            <option>Equine Massage — 60 min</option>
-            <option>Myotherapy — 45 min</option>
-            <option>Performance Maintenance — Package</option>
-          </select>
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" required placeholder="you@example.com" autocomplete="email" inputmode="email" aria-describedby="err-email">
+          <div class="error-msg" id="err-email" role="alert" aria-live="polite"></div>
         </div>
-
-        <div class="row">
-          <div class="field">
-            <label for="date">Preferred date</label>
-            <input id="date" name="date" type="date" min="" required aria-describedby="err-date">
-            <div class="error-msg" id="err-date" role="alert" aria-live="polite"></div>
-          </div>
-          <div class="field">
-            <label for="time">Preferred time</label>
-            <input id="time" name="time" type="time" required step="900" aria-describedby="err-time">
-            <small>Business hours: 08:00 – 18:00</small>
-            <div class="error-msg" id="err-time" role="alert" aria-live="polite"></div>
-          </div>
-        </div>
-
         <div class="field">
-          <label for="address">Address (Canada)</label>
-          <input id="address" name="address" required placeholder="1234 Stable Rd, Somewhere, Ontario, Canada" autocomplete="street-address" aria-describedby="err-address">
-          <div class="error-msg" id="err-address" role="alert" aria-live="polite"></div>
+          <label for="horse">Horse name & age</label>
+          <input id="horse" name="horse" placeholder="Bella — 8 yrs" autocomplete="off">
         </div>
+      </div>
 
+      <div class="field">
+        <label for="service">Service</label>
+        <select id="service" name="service" autocomplete="off">
+          <option>Equine Massage — 60 min</option>
+          <option>Myotherapy — 45 min</option>
+          <option>Performance Maintenance — Package</option>
+        </select>
+      </div>
+
+      <div class="row">
         <div class="field">
-          <label for="notes">Additional notes</label>
-          <textarea id="notes" name="notes" rows="3" placeholder="Anything the therapist should know"></textarea>
+          <label for="date">Preferred date</label>
+          <input id="date" name="date" type="date" min="" required aria-describedby="err-date">
+          <div class="error-msg" id="err-date" role="alert" aria-live="polite"></div>
         </div>
+        <div class="field">
+          <label for="time">Preferred time</label>
+          <input id="time" name="time" type="time" required step="900" aria-describedby="err-time">
+          <small>Business hours: 08:00 – 18:00</small>
+          <div class="error-msg" id="err-time" role="alert" aria-live="polite"></div>
+        </div>
+      </div>
 
-        <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px">
-          <button type="button" id="cancelBtn" class="btn-ghost">Cancel</button>
-          <button type="submit" class="btn-primary" id="bookingSubmit" disabled>Request Booking</button>
-        </div>
-      </form>
-      <div id="bookingResult" style="display:none;margin-top:12px;padding:12px;border-radius:10px;background:linear-gradient(180deg,rgba(127,191,154,0.08),transparent);color:var(--muted)" role="status" aria-live="polite"></div>
-    </div>
+      <div class="field">
+        <label for="address">Address (Canada)</label>
+        <input id="address" name="address" required placeholder="1234 Stable Rd, Somewhere, Ontario, Canada" autocomplete="street-address" aria-describedby="err-address">
+        <div class="error-msg" id="err-address" role="alert" aria-live="polite"></div>
+      </div>
+
+      <div class="field">
+        <label for="notes">Additional notes</label>
+        <textarea id="notes" name="notes" rows="3" placeholder="Anything the therapist should know"></textarea>
+      </div>
+
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px">
+        <button type="button" id="cancelBtn" class="btn-ghost">Cancel</button>
+        <button type="submit" class="btn-primary" id="bookingSubmit" disabled>Request Booking</button>
+      </div>
+    </form>
+
+    <div id="bookingResult" style="display:none;margin-top:12px;padding:12px;border-radius:10px;background:linear-gradient(180deg,rgba(127,191,154,0.08),transparent);color:var(--muted)" role="status" aria-live="polite"></div>
   </div>
+</div>
 
   <!-- CONTACT -->
   <section id="contact" class="events-wrap alt-a" aria-label="Contact area">
