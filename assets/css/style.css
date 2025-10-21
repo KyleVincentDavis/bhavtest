@@ -1,6 +1,3 @@
-/* paste your entire <style> content here — from :root down to the media queries */
-/* I’m including your full CSS from the last message. */
-
 :root{
   --bg:#f7f6f3;
   --off1:#fbfaf8;
@@ -95,7 +92,7 @@ section{padding:48px 24px}
 .mental-title::after{ content:""; position:absolute; left:0; bottom:0; width:64px; height:4px; background:var(--green); border-radius:3px; }
 .mental-img{ width:100%; border-radius:var(--radius); object-fit:cover; aspect-ratio:3/2; background:#ddd; }
 
-/* Testimonials (original grid + art) */
+/* Testimonials */
 .testi-wrap{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:center}
 .testi-heading{font-size:34px;line-height:1.12;margin:0 0 14px;color:#3a2327}
 .testi-sub{margin:0 0 18px;color:#5c3b40}
@@ -145,10 +142,38 @@ footer{padding:0;border-top:none;color:#f6f6f6;background:var(--green)}
 footer a{color:#fff;text-decoration:none}
 .footer-bar{height:6px;width:100%;background:linear-gradient(90deg,var(--gold),#bea06c)}
 
-/* Modal */
-.modal-close{position:absolute;top:10px;right:10px;width:42px;height:42px;border-radius:50%;background:#fff;border:1px solid rgba(0,0,0,.08);display:grid;place-items:center;box-shadow:0 8px 18px rgba(0,0,0,.12);cursor:pointer}
-.modal-close:hover{background:#fafafa}
-.modal-close:focus{outline:var(--ring)}
+/* ===== Modal (NEW pattern) ===== */
+.modal{position:fixed;inset:0;z-index:1200;display:grid;place-items:center;opacity:0;pointer-events:none;transition:opacity .2s ease;}
+.modal.open{opacity:1;pointer-events:auto;}
+.modal__overlay{position:absolute;inset:0;background:rgba(7,18,30,0.5);backdrop-filter:blur(3px);border:0;cursor:pointer;}
+.modal__panel{
+  position:relative; z-index:1; width:min(720px, 92vw); max-height:88vh;
+  background:var(--card); border-radius:14px; box-shadow:0 20px 60px rgba(0,0,0,.25);
+  display:flex; flex-direction:column; overflow:hidden; transform:translateY(10px); transition:transform .22s ease;
+}
+.modal.open .modal__panel{ transform:none; }
+.modal__header{
+  position:sticky; top:0; display:flex; align-items:center; justify-content:space-between;
+  padding:14px 16px; background:var(--card); border-bottom:1px solid rgba(0,0,0,.06); z-index:2;
+}
+.modal__header h2{ margin:0; color:var(--green); font-weight:900; font-size:20px; }
+.modal__close{
+  width:40px; height:40px; border-radius:8px; border:1px solid rgba(0,0,0,.08); background:#fff; cursor:pointer;
+  display:grid; place-items:center; box-shadow:0 6px 16px rgba(0,0,0,.08);
+}
+.modal__close:focus{ outline:var(--ring); }
+.modal__body{ padding:14px 16px 6px; overflow:auto; }
+.modal__footer{
+  position:sticky; bottom:0; display:flex; gap:10px; justify-content:flex-end;
+  padding:10px 12px; background:linear-gradient(180deg, rgba(255,255,255,.92), var(--card));
+  border-top:1px solid rgba(0,0,0,.06); z-index:2;
+}
+.modal__btn{ min-height:44px; }
+.modal__note{ margin:8px 0 0; color:var(--muted); font-size:14px; }
+.modal__result{
+  margin-top:12px; padding:12px; border-radius:10px;
+  background:linear-gradient(180deg,rgba(127,191,154,0.08),transparent); color:var(--muted);
+}
 
 /* Animations */
 .reveal{opacity:0;transform:translateY(8px);transition:opacity .6s ease,transform .6s ease}
@@ -173,26 +198,92 @@ footer a{color:#fff;text-decoration:none}
   nav.desktop{display:none}
   .hamburger{display:flex}
 }
-@media (max-width:640px){
-  .hero{min-height:70vh}
-  .hero-inner{padding:40px 18px}
-  .hero-left h1{font-size:28px}
-  .hero-cta{display:flex;gap:12px;flex-direction:column}
-  .btn-primary,.btn-ghost,.btn-register{width:100%;padding:14px 16px}
-  .services{grid-template-columns:1fr}
-  .row{grid-template-columns:1fr}
-  .masonry{column-count:1}
-  .gallery-toolbar{flex-direction:column;align-items:flex-start;gap:8px}
-  .footer-inner{justify-content:center;text-align:center}
-  .benefit-grid{grid-template-columns:1fr}
-  .testi-grid{grid-template-columns:1fr}
 
-  /* mobile gallery slider */
-  .masonry{display:flex !important; overflow-x:auto; gap:12px; padding:6px 6px 18px; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; column-count:unset !important;}
+/* ===== Mobile spacing normalize (global, consistent rhythm) ===== */
+@media (max-width:640px){
+  /* scale */
+  :root{
+    --space-xs: 8px;
+    --space-sm: 12px;
+    --space-md: 16px;
+    --space-lg: 24px;
+  }
+
+  /* Global section/container rhythm */
+  section{ padding: var(--space-lg) var(--space-md); }
+  .container{ padding: var(--space-lg) var(--space-md); }
+  .wrap{ margin: var(--space-lg) auto; padding: 0 var(--space-md); }
+
+  /* Hero */
+  .hero{ min-height:70vh; background-position:center 35%; }
+  .hero-inner{ padding: var(--space-lg) var(--space-md); }
+  .hero-left h1{ font-size:28px; margin-bottom: var(--space-sm); }
+  .hero-left p{ margin-bottom: var(--space-md); }
+  .hero-cta{ display:flex; gap: var(--space-sm); flex-direction:column; }
+
+  /* Buttons go full-width nicely */
+  .btn-primary,.btn-ghost,.btn-register{ width:100%; padding:14px 16px; }
+
+  /* Cards & blocks */
+  .service,
+  .card,
+  .testi-card,
+  .mental-card{ padding: var(--space-md); }
+
+  /* Grids & gaps */
+  .services,
+  .benefit-grid,
+  .testi-grid,
+  .events-grid{ gap: var(--space-md); }
+
+  /* Forms */
+  .field{ margin-bottom: var(--space-sm); }
+  .row{ grid-template-columns:1fr; gap: var(--space-sm); }
+  .primary-bar{ width:100%; justify-content:center; }
+
+  /* Filters / chips / gallery header */
+  .gallery-toolbar{ flex-direction:column; align-items:flex-start; gap: var(--space-sm); margin-bottom: var(--space-sm); }
+  .filters{ gap: var(--space-sm); }
+  .chip{ padding: 8px 12px; }
+
+  /* Masonry becomes slider */
+  .masonry{ display:flex !important; overflow-x:auto; gap: var(--space-md); padding: 6px 6px var(--space-lg); scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; column-count:unset !important; }
   .masonry::-webkit-scrollbar{ display:none; }
-  .masonry-item{flex:0 0 88%; scroll-snap-align:center; margin:0;}
-  .gallery-controls{display:flex; align-items:center; justify-content:center; gap:10px; margin-top:8px;}
-  .g-arrow{border:1px solid rgba(0,0,0,.12); background:#fff; border-radius:999px; width:38px; height:38px; display:grid; place-items:center; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,.06);}
-  .g-dot{width:8px; height:8px; border-radius:50%; background:#cdb1b6; border:0; cursor:pointer;}
+  .masonry-item{ flex:0 0 88%; scroll-snap-align:center; margin:0; }
+
+  /* Slider controls */
+  .gallery-controls{ display:flex; align-items:center; justify-content:center; gap: var(--space-sm); margin-top: var(--space-sm); }
+  .g-arrow{ border:1px solid rgba(0,0,0,.12); background:#fff; border-radius:999px; width:38px; height:38px; display:grid; place-items:center; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,.06); }
+  .g-dot{ width:8px; height:8px; border-radius:50%; background:#cdb1b6; border:0; cursor:pointer; }
   .g-dot.active{ background:#7b4b53; }
+
+  /* Testimonials wrapper */
+  .testi-grid{ grid-template-columns:1fr; }
+  .testi-wrap{ gap: var(--space-md); }
+
+  /* Footer */
+  .footer-inner{ padding: var(--space-lg) var(--space-md); justify-content:center; text-align:center; }
+
+  /* Bands */
+  .band-40{ height: 24px; }
+
+  /* Modal → bottom sheet + spacing */
+  .modal{ align-items:end; }
+  .modal__panel{
+    width:100vw; max-height:calc(100vh - 10px);
+    border-radius:16px 16px 0 0;
+    transform:translateY(12px);
+  }
+  .modal__header{ padding: var(--space-md); }
+  .modal__body{ padding: var(--space-md); }
+  .modal__footer{
+    position:sticky; bottom:0; padding: var(--space-md) var(--space-md) calc(12px + env(safe-area-inset-bottom));
+    gap: var(--space-sm); justify-content:stretch;
+  }
+  .modal__btn{ flex:1 1 auto; min-height:44px; }
+  .field input,.field textarea,.field select{ font-size:16px; } /* prevent iOS zoom */
+
+  /* Ensure no stray bottom margins */
+  .container > *:last-child,
+  section > *:last-child{ margin-bottom:0; }
 }
