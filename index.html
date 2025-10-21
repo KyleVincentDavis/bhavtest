@@ -182,7 +182,7 @@
   <!-- Return to main wrap content -->
   <div class="wrap">
 
-    <!-- Testimonials -->
+    <!-- Testimonials (UPDATED to generic John Doe + lorem ipsum) -->
     <section id="testimonials" class="alt-b" aria-labelledby="testiTitle">
       <div class="container">
         <div class="testi-wrap">
@@ -192,29 +192,29 @@
 
             <div class="testi-grid" id="testiGrid" data-page="0">
               <article class="testi-card">
-                <p>“Had to put a pet down that was almost 17. They handled this very well and gave us the time we needed to say...”</p>
-                <div class="testi-name">Christina R.</div>
+                <p>“Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Integer at dui at nisi tempor volutpat.”</p>
+                <div class="testi-name">John Doe</div>
               </article>
               <article class="testi-card">
-                <p>“Good place to go; they took good care of my horse from day one. You can see the difference in movement...”</p>
-                <div class="testi-name">Douglas G.</div>
+                <p>“Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.”</p>
+                <div class="testi-name">John Doe</div>
               </article>
               <article class="testi-card">
-                <p>“I cannot say enough good things. The clinic is clean, well-kept and well run. The horses love the work...”</p>
-                <div class="testi-name">Gie H.</div>
+                <p>“Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.”</p>
+                <div class="testi-name">John Doe</div>
               </article>
 
               <article class="testi-card" hidden>
-                <p>“Professional, punctual, and gentle. Our senior gelding is moving better than he has in years.”</p>
-                <div class="testi-name">Maya L.</div>
+                <p>“Aenean euismod, nibh non varius luctus, neque dui commodo sapien, vitae luctus arcu lorem sit amet erat.”</p>
+                <div class="testi-name">John Doe</div>
               </article>
               <article class="testi-card" hidden>
-                <p>“Great barn day! Multiple horses seen efficiently with clear after-care plans. Highly recommend.”</p>
-                <div class="testi-name">Ty R.</div>
+                <p>“Praesent feugiat, mi at cursus malesuada, justo sapien scelerisque libero, at dignissim odio odio at nunc.”</p>
+                <div class="testi-name">John Doe</div>
               </article>
               <article class="testi-card" hidden>
-                <p>“Super knowledgeable about biomechanics. My mare’s back soreness is finally under control.”</p>
-                <div class="testi-name">Sofia P.</div>
+                <p>“Mauris non tempor quam, et lacinia sapien. Sed venenatis ante in porta pulvinar.”</p>
+                <div class="testi-name">John Doe</div>
               </article>
             </div>
 
@@ -296,83 +296,90 @@
     <div class="band-40 bleed"></div>
   </div><!-- /wrap -->
 
-  <!-- Booking modal -->
-  <div id="bookingModal" role="dialog" aria-modal="true" aria-labelledby="bookingTitle"
-       style="display:none;position:fixed;inset:0;background:rgba(7,18,30,0.5);backdrop-filter:blur(4px);padding:28px;z-index:80">
-    <div style="max-width:720px;margin:36px auto;background:var(--card);border-radius:12px;padding:22px;outline:0;position:relative" tabindex="-1" id="bookingDialog">
-      <button class="modal-close" id="modalCloseBtn" aria-label="Close booking">✕</button>
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <h2 id="bookingTitle" style="color:var(--green)">Book a Session</h2>
+  <!-- Booking Modal (UPDATED pattern) -->
+  <div id="bookingModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="bookingTitle" aria-hidden="true">
+    <div class="modal__panel" id="bookingDialog" tabindex="-1">
+      <header class="modal__header">
+        <h2 id="bookingTitle">Book a Session</h2>
+        <button class="modal__close" id="modalCloseBtn" aria-label="Close booking">✕</button>
+      </header>
+
+      <div class="modal__body">
+        <form id="bookingForm" class="booking" autocomplete="on" novalidate>
+          <div class="row">
+            <div class="field">
+              <label for="name">Full name</label>
+              <input id="name" name="name" required placeholder="Your full name" autocomplete="name" aria-describedby="err-name">
+              <div class="error-msg" id="err-name" role="alert" aria-live="polite"></div>
+            </div>
+            <div class="field">
+              <label for="phone">Phone</label>
+              <input id="phone" name="phone" required placeholder="555-555-0123" autocomplete="tel" inputmode="tel" pattern="^\+?1?[\s\-\.]?\(?\d{3}\)?[\s\-\.]?\d{3}[\s\-\.]?\d{4}$" aria-describedby="err-phone">
+              <small>Format: 555-555-0123 (Canada/US)</small>
+              <div class="error-msg" id="err-phone" role="alert" aria-live="polite"></div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" required placeholder="you@example.com" autocomplete="email" inputmode="email" aria-describedby="err-email">
+              <div class="error-msg" id="err-email" role="alert" aria-live="polite"></div>
+            </div>
+            <div class="field">
+              <label for="horse">Horse name & age</label>
+              <input id="horse" name="horse" placeholder="Bella — 8 yrs" autocomplete="off">
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="service">Service</label>
+            <select id="service" name="service" autocomplete="off">
+              <option>Equine Massage — 60 min</option>
+              <option>Myotherapy — 45 min</option>
+              <option>Performance Maintenance — Package</option>
+            </select>
+          </div>
+
+          <div class="row">
+            <div class="field">
+              <label for="date">Preferred date</label>
+              <input id="date" name="date" type="date" min="" required aria-describedby="err-date">
+              <div class="error-msg" id="err-date" role="alert" aria-live="polite"></div>
+            </div>
+            <div class="field">
+              <label for="time">Preferred time</label>
+              <input id="time" name="time" type="time" required step="900" aria-describedby="err-time">
+              <small>Business hours: 08:00 – 18:00</small>
+              <div class="error-msg" id="err-time" role="alert" aria-live="polite"></div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="address">Address (Canada)</label>
+            <input id="address" name="address" required placeholder="1234 Stable Rd, Somewhere, Ontario, Canada" autocomplete="street-address" aria-describedby="err-address">
+            <div class="error-msg" id="err-address" role="alert" aria-live="polite"></div>
+          </div>
+
+          <div class="field">
+            <label for="notes">Additional notes</label>
+            <textarea id="notes" name="notes" rows="3" placeholder="Anything the therapist should know"></textarea>
+          </div>
+
+          <p class="modal__note">
+            Please have your horse <strong>caught</strong> and <strong>brushed</strong> before the therapist arrives.
+          </p>
+
+          <div id="bookingResult" class="modal__result" role="status" aria-live="polite" hidden></div>
+        </form>
       </div>
 
-      <form id="bookingForm" class="booking" autocomplete="on" novalidate>
-        <div class="row">
-          <div class="field">
-            <label for="name">Full name</label>
-            <input id="name" name="name" required placeholder="Your full name" autocomplete="name" aria-describedby="err-name">
-            <div class="error-msg" id="err-name" role="alert" aria-live="polite"></div>
-          </div>
-          <div class="field">
-            <label for="phone">Phone</label>
-            <input id="phone" name="phone" required placeholder="+1 555 555 0123" autocomplete="tel" inputmode="tel" pattern="^\+?1?[\s\-\.]?\(?\d{3}\)?[\s\-\.]?\d{3}[\s\-\.]?\d{4}$" aria-describedby="err-phone">
-            <small>Format: 555-555-0123 (Canada/US)</small>
-            <div class="error-msg" id="err-phone" role="alert" aria-live="polite"></div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="field">
-            <label for="email">Email</label>
-            <input id="email" name="email" type="email" required placeholder="you@example.com" autocomplete="email" inputmode="email" aria-describedby="err-email">
-            <div class="error-msg" id="err-email" role="alert" aria-live="polite"></div>
-          </div>
-          <div class="field">
-            <label for="horse">Horse name & age</label>
-            <input id="horse" name="horse" placeholder="Bella — 8 yrs" autocomplete="off">
-          </div>
-        </div>
-
-        <div class="field">
-          <label for="service">Service</label>
-          <select id="service" name="service" autocomplete="off">
-            <option>Equine Massage — 60 min</option>
-            <option>Myotherapy — 45 min</option>
-            <option>Performance Maintenance — Package</option>
-          </select>
-        </div>
-
-        <div class="row">
-          <div class="field">
-            <label for="date">Preferred date</label>
-            <input id="date" name="date" type="date" min="" required aria-describedby="err-date">
-            <div class="error-msg" id="err-date" role="alert" aria-live="polite"></div>
-          </div>
-          <div class="field">
-            <label for="time">Preferred time</label>
-            <input id="time" name="time" type="time" required step="900" aria-describedby="err-time">
-            <small>Business hours: 08:00 – 18:00</small>
-            <div class="error-msg" id="err-time" role="alert" aria-live="polite"></div>
-          </div>
-        </div>
-
-        <div class="field">
-          <label for="address">Address (Canada)</label>
-          <input id="address" name="address" required placeholder="1234 Stable Rd, Somewhere, Ontario, Canada" autocomplete="street-address" aria-describedby="err-address">
-          <div class="error-msg" id="err-address" role="alert" aria-live="polite"></div>
-        </div>
-
-        <div class="field">
-          <label for="notes">Additional notes</label>
-          <textarea id="notes" name="notes" rows="3" placeholder="Anything the therapist should know"></textarea>
-        </div>
-
-        <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px">
-          <button type="button" id="cancelBtn" class="btn-ghost">Cancel</button>
-          <button type="submit" class="btn-primary" id="bookingSubmit" disabled>Request Booking</button>
-        </div>
-      </form>
-      <div id="bookingResult" style="display:none;margin-top:12px;padding:12px;border-radius:10px;background:linear-gradient(180deg,rgba(127,191,154,0.08),transparent);color:var(--muted)" role="status" aria-live="polite"></div>
+      <footer class="modal__footer">
+        <button type="button" id="cancelBtn" class="btn-ghost modal__btn">Cancel</button>
+        <button type="submit" form="bookingForm" class="btn-primary modal__btn" id="bookingSubmit" disabled>Request Booking</button>
+      </footer>
     </div>
+    <button class="modal__overlay" type="button" aria-label="Close"></button>
   </div>
 
   <!-- CONTACT -->
